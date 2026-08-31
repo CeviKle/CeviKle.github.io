@@ -43,18 +43,47 @@
             <h1 id="instrTitle">Assessment 2</h1>
             <p class="subtitle">Candidate: <strong id="instrCandidate"></strong></p>
 
-            <div class="info-row"><span class="k">Duration</span><span class="v" id="instrDuration"></span></div>
-            <div class="info-row"><span class="k">Questions</span><span class="v">5 coding problems</span></div>
-            <div class="info-row"><span class="k">Scoring</span><span class="v">Partial credit per problem</span></div>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Duration</div>
+                    <div class="stat-value" id="instrDuration"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Questions</div>
+                    <div class="stat-value" id="instrQuestionCount"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Points</div>
+                    <div class="stat-value" id="instrTotalPoints"></div>
+                </div>
+            </div>
 
-            <ul class="rule-list" style="margin-top: 24px;">
-                <li>This assessment runs in <strong>fullscreen mode</strong>. Exiting repeatedly will flag and eventually lock your session — every exit is logged either way.</li>
-                <li>Copy, paste, cut, and the right-click menu are disabled in the workspace.</li>
-                <li>Tab switches and window focus loss are detected and logged for academic integrity review.</li>
-                <li>Your code is saved automatically as you work. If your browser reloads, you can resume from where you left off.</li>
-                <li><strong>Run Sample Tests</strong> checks your code against visible examples only — unlimited attempts, not scored. <strong>Submit Solution</strong> grades a single problem against all test cases (including hidden ones); you can resubmit a problem and your best score counts. <strong>Submit Assessment</strong> locks in your best score on every problem and ends the exam — do this only when you're done.</li>
-                <li>The timer is set by the server and cannot be paused once started.</li>
-            </ul>
+            <div class="rules-block">
+                <h3>How the exam works</h3>
+                <ul class="rule-list">
+                    <li>Each problem has three actions: <strong>Run Sample Tests</strong> (checks your code against the visible examples only — unlimited attempts, never scored), <strong>Submit Solution</strong> (grades that one problem against every test case, including hidden ones — you can resubmit and your best score counts), and <strong>Submit Assessment</strong> (locks in your best score on every problem and ends the exam for good — only do this once you're completely done).</li>
+                    <li>Your code is saved automatically as you type. If your browser or tab reloads, you can resume from exactly where you left off — you will not lose work.</li>
+                    <li>The timer is set by our server, not your computer's clock, and cannot be paused once it starts — including if you close the tab.</li>
+                </ul>
+            </div>
+
+            <div class="rules-block">
+                <h3>Rules — read carefully</h3>
+                <ul class="rule-list">
+                    <li>Do not exit fullscreen.
+                        <span class="consequence">If you do: it's logged every time. After repeated exits, your session is automatically locked and whatever you've done so far is submitted for you — you cannot undo this or get the exam back.</span>
+                    </li>
+                    <li>Do not copy or paste anything, in or out of the code editor.
+                        <span class="consequence">If you try: paste is blocked outright (nothing gets pasted), and the attempt is logged for review.</span>
+                    </li>
+                    <li>Do not switch tabs, minimize the window, or click away from the exam.
+                        <span class="consequence">If you do: it's detected and logged as a tab switch / focus loss for academic integrity review, even briefly.</span>
+                    </li>
+                    <li>Do not use browser developer tools or keyboard shortcuts like Ctrl+C / Ctrl+V / F12.
+                        <span class="consequence">If you try: the shortcut is blocked and the attempt is logged.</span>
+                    </li>
+                </ul>
+            </div>
 
             <button class="btn btn-primary btn-block" id="beginBtn">I Understand &amp; Continue</button>
         </div>

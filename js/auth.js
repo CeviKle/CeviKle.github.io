@@ -48,6 +48,8 @@ const Auth = (() => {
             assessmentId: data.assessment_id,
             assessmentTitle: data.assessment_title,
             durationMinutes: data.duration_minutes,
+            questionCount: data.question_count,
+            totalPoints: data.total_points,
         };
         persist();
         return state;

@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderInstructions(state) {
         document.getElementById('instrTitle').textContent = state.assessmentTitle;
-        document.getElementById('instrDuration').textContent = `${state.durationMinutes} minutes`;
+        document.getElementById('instrDuration').textContent = `${state.durationMinutes} min`;
+        document.getElementById('instrQuestionCount').textContent = `${state.questionCount} problems`;
+        document.getElementById('instrTotalPoints').textContent = `${state.totalPoints} pts`;
         document.getElementById('instrCandidate').textContent = state.candidateName;
     }
 
