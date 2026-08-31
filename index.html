@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>VISS-2026 — Assessment 2 (Coding Round)</title>
+<link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/assessment.css">
+<link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+
+<!-- ============ VERIFY ============ -->
+<div id="screen-verify" class="screen active">
+    <div class="center-page">
+        <div class="panel">
+            <div class="panel-eyebrow">VISS-2026 &middot; CEVI Summer School</div>
+            <h1>Assessment 2 — Coding Round</h1>
+            <p class="subtitle">Enter your candidate details to begin. Each candidate may attempt this assessment once.</p>
+            <form id="verifyForm">
+                <div class="field">
+                    <label for="usnInput">USN</label>
+                    <input type="text" id="usnInput" required placeholder="e.g. 01FE21BCS001" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="emailInput">Email Address</label>
+                    <input type="email" id="emailInput" required placeholder="you@example.com" autocomplete="off">
+                    <div class="error-text" id="verifyError"></div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="verifyBtn">Continue</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ============ INSTRUCTIONS ============ -->
+<div id="screen-instructions" class="screen">
+    <div class="center-page">
+        <div class="panel">
+            <div class="panel-eyebrow">Before you begin</div>
+            <h1 id="instrTitle">Assessment 2</h1>
+            <p class="subtitle">Candidate: <strong id="instrCandidate"></strong></p>
+
+            <div class="info-row"><span class="k">Duration</span><span class="v" id="instrDuration"></span></div>
+            <div class="info-row"><span class="k">Questions</span><span class="v">5 coding problems</span></div>
+            <div class="info-row"><span class="k">Scoring</span><span class="v">Partial credit per problem</span></div>
+
+            <ul class="rule-list" style="margin-top: 24px;">
+                <li>This assessment runs in <strong>fullscreen mode</strong>. Exiting repeatedly will flag and eventually lock your session — every exit is logged either way.</li>
+                <li>Copy, paste, cut, and the right-click menu are disabled in the workspace.</li>
+                <li>Tab switches and window focus loss are detected and logged for academic integrity review.</li>
+                <li>Your code is saved automatically as you work. If your browser reloads, you can resume from where you left off.</li>
+                <li><strong>Run Sample Tests</strong> checks your code against visible examples only — unlimited attempts, not scored. <strong>Submit Solution</strong> grades a single problem against all test cases (including hidden ones); you can resubmit a problem and your best score counts. <strong>Submit Assessment</strong> locks in your best score on every problem and ends the exam — do this only when you're done.</li>
+                <li>The timer is set by the server and cannot be paused once started.</li>
+            </ul>
+
+            <button class="btn btn-primary btn-block" id="beginBtn">I Understand &amp; Continue</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FULLSCREEN GATE ============ -->
+<div id="fsGateOverlay" class="fs-overlay" hidden>
+    <h2>Secure Assessment Mode</h2>
+    <p id="fsGateResumeNote" hidden>Resuming your in-progress assessment. Your saved code will be restored.</p>
+    <p>You're about to enter fullscreen mode. Leaving fullscreen, switching tabs, or attempting to copy/paste will be logged.</p>
+    <button class="btn btn-primary" id="fsGateBtn">Enter Fullscreen &amp; Begin</button>
+</div>
+
+<div id="fsWarningOverlay" class="fs-overlay" hidden>
+    <h2>Security Notice</h2>
+    <p id="fsWarningText"></p>
+    <button class="btn btn-primary" id="fsResumeBtn">Return to Fullscreen</button>
+</div>
+
+<!-- ============ LOCKED / ALREADY SUBMITTED / EXPIRED ============ -->
+<div id="screen-locked" class="screen">
+    <div class="center-page">
+        <div class="panel" style="text-align:center;">
+            <div class="panel-eyebrow">VISS-2026</div>
+            <h1 id="lockedTitle">Assessment Unavailable</h1>
+            <p class="subtitle" id="lockedMessage" style="margin-top:8px;"></p>
+        </div>
+    </div>
+</div>
+
+<!-- ============ WORKSPACE ============ -->
+<div id="screen-workspace" class="screen">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="brand">VISS-2026<small>Assessment 2 — Coding Round</small></div>
+        </div>
+        <div class="top-bar-right">
+            <span class="candidate-tag" id="candidateTag"></span>
+            <span class="timer-pill" id="timerDisplay">--:--</span>
+            <button class="btn btn-danger btn-sm" id="submitAssessmentBtn">Submit Assessment</button>
+        </div>
+    </div>
+    <div class="exam-body">
+        <div class="question-nav" id="questionNav"></div>
+        <div class="desc-panel" id="descPanel"></div>
+        <div class="editor-column">
+            <div class="editor-toolbar">
+                <span class="sig" id="sigLabel"></span>
+                <div class="actions">
+                    <button class="tool-btn" id="resetBtn">Reset Code</button>
+                    <button class="tool-btn" id="runBtn">▶ Run Sample Tests</button>
+                    <button class="tool-btn tool-btn-primary" id="submitQuestionBtn">Submit Solution</button>
+                </div>
+            </div>
+            <div id="monaco-container"></div>
+            <div class="results-panel" id="resultsPanel"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ RESULTS ============ -->
+<div id="screen-results" class="screen">
+    <div class="center-page">
+        <div class="panel panel-wide">
+            <div class="panel-eyebrow">Submission Complete</div>
+            <h1>Assessment 2 — Results</h1>
+            <p class="subtitle" id="resultsCandidateLine"></p>
+            <div class="score-hero">
+                <div class="num" id="resultsTotalScore">--<span>/100</span></div>
+            </div>
+            <div id="resultsBreakdown"></div>
+            <div class="telemetry-box" id="resultsTelemetry"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Monaco Editor (pinned version, loaded before the app scripts that depend on it) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+<script>
+    require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs' } });
+    require(['vs/editor/editor.main'], () => window.dispatchEvent(new Event('monaco-ready')));
+</script>
+
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/session.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/judge.js"></script>
+<script src="js/autosave.js"></script>
+<script src="js/security.js"></script>
+<script src="js/submissions.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
