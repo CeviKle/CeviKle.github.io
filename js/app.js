@@ -159,9 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('resetBtn').addEventListener('click', async () => {
         const q = Questions.getById(currentQuestionId);
-        if (!confirm(`Reset "${q.title}" to the starter code? Your current solution for this problem will be discarded.`)) return;
+        const ok = await UI.confirmModal('Reset Code?', `Reset "${q.title}" to the starter code? Your current solution for this problem will be discarded.`, 'Reset Code');
+        if (!ok) return;
         Editor.resetQuestion(currentQuestionId, q.starter_code);
         Autosave.markDirty(currentQuestionId);
     });
@@ -169,7 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------------- submit solution (per question — grades against hidden tests too) ----------------
     document.getElementById('submitQuestionBtn').addEventListener('click', async () => {
         const q = Questions.getById(currentQuestionId);
-        if (!confirm(`Submit your solution for "${q.title}"? This grades it against all test cases, including hidden ones. You can submit again later to improve your score — the best attempt counts.`)) return;
+        const ok = await UI.confirmModal('Submit Solution?', `Submit your solution for "${q.title}"? This grades it against all test cases, including hidden ones. You can submit again later to improve your score — the best attempt counts.`, 'Submit Solution');
+        if (!ok) return;
         const btn = document.getElementById('submitQuestionBtn');
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> Grading…';
@@ -191,7 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------------- submit assessment ----------------
     document.getElementById('submitAssessmentBtn').addEventListener('click', async () => {
-        if (!confirm('Submit the assessment? This grades every problem against all test cases (including hidden ones), locks your code, and cannot be undone.')) return;
+        const ok = await UI.confirmModal('Submit Assessment?', 'This grades every problem against all test cases (including hidden ones), locks your code, and cannot be undone.', 'Submit Assessment');
+        if (!ok) return;
         await forceSubmit('Submitted manually');
     });
 
