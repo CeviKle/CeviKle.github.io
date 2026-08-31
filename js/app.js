@@ -70,8 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             if (err.detail === 'already_attempted') {
                 showLockedScreen('Submission Received', 'You have already completed this assessment.');
+            } else if (err.detail === 'expired') {
+                showLockedScreen('Assessment Closed', 'Your exam time window has ended.');
+            } else if (err.detail === 'link_not_open_yet') {
+                showLockedScreen('Not Open Yet', 'This assessment link is not open yet. Please check back at the scheduled start time.');
+            } else if (err.detail === 'link_closed') {
+                showLockedScreen('Link Closed', 'This assessment link has closed and is no longer accepting new attempts. Contact your instructor if you believe this is an error.');
             } else if (err.status === 403) {
-                showLockedScreen('Assessment Closed', 'The time window for this assessment has ended.');
+                showLockedScreen('Assessment Closed', 'This assessment is not currently available.');
             } else {
                 UI.toast(err.detail || 'Could not start the assessment. Please retry.', 'danger');
             }
